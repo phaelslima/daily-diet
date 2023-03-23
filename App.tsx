@@ -1,18 +1,14 @@
-import {
-  ActivityIndicator,
-  StatusBar,
-  StyleSheet,
-  Text,
-  View,
-} from 'react-native'
-
-import { ThemeProvider } from 'styled-components/native'
+import { ActivityIndicator, StatusBar } from 'react-native'
 
 import {
   NunitoSans_400Regular,
   NunitoSans_700Bold,
   useFonts,
 } from '@expo-google-fonts/nunito-sans'
+
+import { ThemeProvider } from 'styled-components/native'
+
+import { Home } from '@screens/Home'
 
 import { defaultTheme } from '@themes/default'
 
@@ -21,13 +17,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      {fontsLoaded ? (
-        <View style={styles.container}>
-          <Text>Open up App.tsx to start working on your app!</Text>
-        </View>
-      ) : (
-        <ActivityIndicator />
-      )}
+      {fontsLoaded ? <Home /> : <ActivityIndicator />}
 
       <StatusBar
         barStyle="light-content"
@@ -37,12 +27,3 @@ export default function App() {
     </ThemeProvider>
   )
 }
-
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-})
