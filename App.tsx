@@ -8,7 +8,7 @@ import {
 
 import { ThemeProvider } from 'styled-components/native'
 
-import { Home } from '@screens/Home'
+import { Routes } from '@routes'
 
 import { defaultTheme } from '@themes/default'
 
@@ -17,7 +17,7 @@ export default function App() {
 
   return (
     <ThemeProvider theme={defaultTheme}>
-      {fontsLoaded ? <Home /> : <ActivityIndicator />}
+      {fontsLoaded ? <Routes /> : <ActivityIndicator />}
 
       <StatusBar
         barStyle="light-content"
