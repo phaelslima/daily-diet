@@ -9,7 +9,7 @@ export const defaultTheme = {
     GREEN_LIGHT: '#E5F0DB',
 
     GRAY_700: '#FAFAFA',
-    GRAY_600: '#DDDEDF',
+    GRAY_600: '#EFF0F0',
     GRAY_500: '#DDDEDF',
     GRAY_400: '#B9BBBC',
     GRAY_300: '#5C6265',
