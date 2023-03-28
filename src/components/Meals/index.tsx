@@ -1,4 +1,5 @@
 import { SectionList } from 'react-native'
+import { useNavigation } from '@react-navigation/native'
 import { Plus } from 'phosphor-react-native'
 
 import { Button } from '@components/Button'
@@ -7,6 +8,8 @@ import { Meal } from '@components/Meal'
 import { SectionTitle, Separator, Title } from './styles'
 
 export function Meals() {
+  const navigation = useNavigation()
+
   const DATA = [
     {
       title: '12.08.22',
@@ -42,6 +45,7 @@ export function Meals() {
       <Button
         icon={<Plus style={{ marginRight: 12 }} size={20} color="#FFF" />}
         title="Nova refeição"
+        onPress={() => navigation.navigate('new')}
       />
 
       <SectionList
