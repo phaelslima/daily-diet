@@ -33,3 +33,13 @@ export const Input = styled(TextInput)`
 
   color: ${({ theme }) => theme.COLORS.GRAY_100};
 `
+
+export const Feedback = styled.Text<{ valid?: boolean }>`
+  font-family: ${({ theme }) => theme.FONT_FAMILY.REGULAR};
+  font-size: ${({ theme }) => theme.FONT_SIZE.XS}px;
+
+  line-height: 20.8px;
+
+  color: ${({ theme, valid }) =>
+    valid ? theme.COLORS.GREEN_MID : theme.COLORS.RED_MID};
+`

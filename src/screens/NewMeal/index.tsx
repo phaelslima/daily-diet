@@ -1,5 +1,6 @@
 import { useNavigation } from '@react-navigation/native'
 import { useFormik } from 'formik'
+import * as Yup from 'yup'
 
 import { Button } from '@components/Button'
 import { Input } from '@components/Input'
@@ -13,6 +14,7 @@ import {
   Header,
   Icon,
   RadioGroup,
+  RadioGroupFeedback,
   RadioGroupTitle,
   Row,
   Title,
@@ -29,6 +31,27 @@ export function NewMeal() {
       hour: '',
       isOnDiet: null,
     },
+    validationSchema: Yup.object().shape({
+      name: Yup.string()
+        .min(2, 'Muito curto!')
+        .max(50, 'Muito longo!')
+        .required('Campo obrigatório'),
+      description: Yup.string()
+        .min(2, 'Muito curto!')
+        .max(150, 'Muito longo!')
+        .required('Campo obrigatório'),
+      date: Yup.string()
+        .matches(
+          /(\d){2}\/(\d){2}\/(\d){4}/,
+          'A data deve ter este padrão "00/00/0000"'
+        )
+        .required('Campo obrigatório'),
+      hour: Yup.string()
+        .matches(/(\d){2}:(\d){2}/, 'A hora deve ter este padrão "00:00"')
+        .length(5)
+        .required('Campo obrigatório'),
+      isOnDiet: Yup.boolean().required('Campo obrigatório'),
+    }),
     onSubmit: (values) => {
       alert(JSON.stringify(values, null, 2))
     },
@@ -51,6 +74,8 @@ export function NewMeal() {
             onChangeText={formik.handleChange('name')}
             onBlur={formik.handleBlur('name')}
             value={formik.values.name}
+            valid={!formik.errors.name && formik.touched.name}
+            feedback={formik.errors.name}
           />
 
           <Input
@@ -61,6 +86,7 @@ export function NewMeal() {
             onChangeText={formik.handleChange('description')}
             onBlur={formik.handleBlur('description')}
             value={formik.values.description}
+            feedback={formik.errors.description}
           />
 
           <Row>
@@ -70,6 +96,7 @@ export function NewMeal() {
               onChangeText={formik.handleChange('date')}
               onBlur={formik.handleBlur('date')}
               value={formik.values.date}
+              feedback={formik.errors.date}
             />
 
             <Input
@@ -78,6 +105,7 @@ export function NewMeal() {
               onChangeText={formik.handleChange('hour')}
               onBlur={formik.handleBlur('hour')}
               value={formik.values.hour}
+              feedback={formik.errors.hour}
             />
           </Row>
 
@@ -101,6 +129,8 @@ export function NewMeal() {
                 onPress={() => formik.setFieldValue('isOnDiet', false)}
               />
             </Row>
+
+            <RadioGroupFeedback>{formik.errors.isOnDiet}</RadioGroupFeedback>
           </RadioGroup>
         </Form>
 
