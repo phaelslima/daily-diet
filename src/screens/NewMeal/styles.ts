@@ -50,3 +50,28 @@ export const Context = styled.View`
   background-color: ${({ theme }) => theme.COLORS.WHITE};
   border-radius: 20px;
 `
+
+export const Form = styled.ScrollView.attrs({
+  showsVerticalScrollIndicator: false,
+})`
+  flex: 1;
+`
+
+export const Row = styled.View`
+  flex-direction: row;
+`
+
+export const RadioGroup = styled.View`
+  margin-bottom: 24px;
+`
+
+export const RadioGroupTitle = styled.Text`
+  margin-bottom: 8px;
+
+  font-family: ${({ theme }) => theme.FONT_FAMILY.BOLD};
+  font-size: ${({ theme }) => theme.FONT_SIZE.SM}px;
+
+  line-height: 18.2px;
+
+  color: ${({ theme }) => theme.COLORS.GRAY_200};
+`
