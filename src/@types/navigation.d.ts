@@ -4,9 +4,10 @@ export declare global {
   namespace ReactNavigation {
     interface RootParamList {
       home: undefined
-      feedback: { type: FeedbackTypeStyleProps }
-      new: undefined
       statistics: undefined
+      new: undefined
+      edit: undefined
+      feedback: { type: FeedbackTypeStyleProps }
     }
   }
 }
