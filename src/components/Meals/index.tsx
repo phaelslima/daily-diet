@@ -1,6 +1,7 @@
 import { SectionList } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
-import { Plus } from 'phosphor-react-native'
+
+import * as PhosphorIcons from 'phosphor-react-native'
 
 import { Button } from '@components/Button'
 import { Meal } from '@components/Meal'
@@ -43,7 +44,7 @@ export function Meals() {
       <Title>Refeições</Title>
 
       <Button
-        icon={<Plus style={{ marginRight: 12 }} size={20} color="#FFF" />}
+        icon={PhosphorIcons.Plus}
         title="Nova refeição"
         onPress={() => navigation.navigate('new')}
       />
