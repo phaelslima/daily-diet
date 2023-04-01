@@ -8,6 +8,7 @@ export declare global {
       new: undefined
       edit: undefined
       feedback: { type: FeedbackTypeStyleProps }
+      details: undefined
     }
   }
 }

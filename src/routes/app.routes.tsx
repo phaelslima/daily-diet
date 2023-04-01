@@ -9,6 +9,7 @@ import { NewMeal } from '@screens/NewMeal'
 import { EditMeal } from '@screens/EditMeal'
 
 import { Feedback } from '@screens/Feedback'
+import { MealDetails } from '@screens/MealDetails'
 
 export function AppRoutes() {
   return (
@@ -18,6 +19,7 @@ export function AppRoutes() {
       <Screen name="new" component={NewMeal} />
       <Screen name="edit" component={EditMeal} />
       <Screen name="feedback" component={Feedback} />
+      <Screen name="details" component={MealDetails} />
     </Navigator>
   )
 }
