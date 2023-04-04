@@ -1,43 +1,66 @@
+import { useCallback, useState } from 'react'
 import { SectionList } from 'react-native'
-import { useNavigation } from '@react-navigation/native'
+import { useFocusEffect, useNavigation } from '@react-navigation/native'
 
 import * as PhosphorIcons from 'phosphor-react-native'
+
+import { mealsGetAll } from '@storage/meal/mealsGetAll'
+import { MealStorageDTO } from '@storage/meal/MealStorageDTO'
 
 import { Button } from '@components/Button'
 import { Meal } from '@components/Meal'
 
+import { toTimestamp } from '@utils/toTimestamp'
+
 import { SectionTitle, Separator, Title } from './styles'
+
+export type MealSectionsProps = { title: string; data: MealStorageDTO[] }
 
 export function Meals() {
   const navigation = useNavigation()
 
-  const DATA = [
-    {
-      title: '12.08.22',
-      data: [
-        {
-          time: '20:00',
-          title: 'X-tudo',
-          isOnDiet: false,
-        },
-        {
-          time: '16:00',
-          title: 'Whey protein com leite',
-          isOnDiet: true,
-        },
-        {
-          time: '12:30',
-          title: 'Salada cesar com frango grelhado',
-          isOnDiet: true,
-        },
-        {
-          time: '09:30',
-          title: 'Vitamina de banana com abacate',
-          isOnDiet: true,
-        },
-      ],
-    },
-  ]
+  const [meals, setMeals] = useState<MealSectionsProps[]>([])
+
+  async function fetchMeals() {
+    const data = [] as MealSectionsProps[]
+
+    const mealList = await mealsGetAll()
+
+    mealList.map((meal) => {
+      const date = meal.date.replaceAll('/', '.')
+
+      const isTitleExists = data.find((item) => item.title === date)
+
+      if (!isTitleExists) {
+        const newItem = {
+          title: date,
+          data: [meal],
+        }
+
+        data.push(newItem)
+      } else {
+        const index = data.findIndex((item) => item.title === date)
+
+        data[index].data.push(meal)
+      }
+    })
+
+    data.sort(function (a, b) {
+      return toTimestamp(a.title) < toTimestamp(b.title)
+        ? 1
+        : toTimestamp(a.title) > toTimestamp(b.title)
+        ? -1
+        : 0
+    })
+
+    setMeals(data)
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchMeals()
+    }, [])
+  )
 
   return (
     <>
@@ -50,16 +73,22 @@ export function Meals() {
       />
 
       <SectionList
-        sections={DATA}
+        sections={meals}
         keyExtractor={(_, index) => String(index)}
         showsVerticalScrollIndicator={false}
         renderItem={({ item }) => (
-          <Meal time={item.time} title={item.title} isOnDiet={item.isOnDiet} />
+          <Meal
+            time={item.hour}
+            title={item.name}
+            isOnDiet={item.isOnDiet}
+            onPress={() => navigation.navigate('details', { id: item.id })}
+          />
         )}
         renderSectionHeader={({ section: { title } }) => (
           <SectionTitle>{title}</SectionTitle>
         )}
         ItemSeparatorComponent={() => <Separator />}
+        contentContainerStyle={{ paddingBottom: 24 }}
       />
     </>
   )
