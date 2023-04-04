@@ -1,4 +1,5 @@
 import { useEffect, useState } from 'react'
+import { Alert } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
 import * as PhosphorIcons from 'phosphor-react-native'
@@ -7,6 +8,7 @@ import { Badge } from '@components/Badge'
 import { Button } from '@components/Button'
 
 import { mealGetById } from '@storage/meal/mealGetById'
+import { mealRemoveById } from '@storage/meal/mealRemoveById'
 import { MealStorageDTO } from '@storage/meal/MealStorageDTO'
 
 import {
@@ -42,6 +44,15 @@ export function MealDetails() {
   async function getMeal() {
     const meal = await mealGetById(params.id)
     setMeal(meal)
+  }
+
+  async function handleRemoveMeal() {
+    try {
+      await mealRemoveById(params.id)
+      navigation.goBack()
+    } catch (error) {
+      Alert.alert('Remover Refeição', 'Não foi possível remover a refeição.')
+    }
   }
 
   useEffect(() => {
@@ -82,6 +93,7 @@ export function MealDetails() {
             style={{ marginTop: 9 }}
             icon={PhosphorIcons.Trash}
             title="Excluir refeição"
+            onPress={handleRemoveMeal}
           />
         </ButtonControls>
       </Content>
