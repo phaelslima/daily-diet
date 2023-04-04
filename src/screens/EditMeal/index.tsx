@@ -1,4 +1,7 @@
-import { useNavigation } from '@react-navigation/native'
+import { useEffect } from 'react'
+import { Alert } from 'react-native'
+import { useNavigation, useRoute } from '@react-navigation/native'
+import { Masks } from 'react-native-mask-input'
 
 import * as Yup from 'yup'
 import { useFormik } from 'formik'
@@ -6,6 +9,9 @@ import { useFormik } from 'formik'
 import { Button } from '@components/Button'
 import { Input } from '@components/Input'
 import { Radio } from '@components/Radio'
+
+import { mealGetById } from '@storage/meal/mealGetById'
+import { mealUpdateById } from '@storage/meal/mealUpdateById'
 
 import {
   BackButton,
@@ -21,11 +27,19 @@ import {
   Title,
 } from './styles'
 
+type Params = {
+  id: string
+}
+
 export function EditMeal() {
   const navigation = useNavigation()
+  const route = useRoute()
+
+  const params = route.params as Params
 
   const formik = useFormik({
     initialValues: {
+      id: '',
       name: '',
       description: '',
       date: '',
@@ -41,27 +55,48 @@ export function EditMeal() {
         .min(2, 'Muito curto!')
         .max(150, 'Muito longo!')
         .required('Campo obrigatório'),
-      date: Yup.string()
-        .matches(
-          /(\d){2}\/(\d){2}\/(\d){4}/,
-          'A data deve ter este padrão "00/00/0000"'
-        )
-        .required('Campo obrigatório'),
-      hour: Yup.string()
-        .matches(/(\d){2}:(\d){2}/, 'A hora deve ter este padrão "00:00"')
-        .length(5)
-        .required('Campo obrigatório'),
+      date: Yup.string().required('Campo obrigatório'),
+      hour: Yup.string().length(5).required('Campo obrigatório'),
       isOnDiet: Yup.boolean().required('Campo obrigatório'),
     }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
+    onSubmit: async (values) => {
+      try {
+        await mealUpdateById(values as any)
+        navigation.navigate('home')
+      } catch (error) {
+        Alert.alert(
+          'Atualizar Refeição',
+          'Não foi possível atualizar a refeição.'
+        )
+      }
     },
   })
+
+  function handleGoBack() {
+    navigation.goBack()
+  }
+
+  async function getMeal() {
+    const meal = await mealGetById(params.id)
+
+    formik.setValues({
+      id: meal?.id,
+      name: meal?.name,
+      description: meal?.description,
+      date: meal?.date,
+      hour: meal?.hour,
+      isOnDiet: meal?.isOnDiet,
+    } as any)
+  }
+
+  useEffect(() => {
+    getMeal()
+  }, [])
 
   return (
     <Container>
       <Header>
-        <BackButton onPress={() => navigation.goBack()}>
+        <BackButton onPress={handleGoBack}>
           <Icon />
         </BackButton>
 
@@ -94,6 +129,8 @@ export function EditMeal() {
             <Input
               title="Data"
               style={{ marginRight: 12 }}
+              keyboardType="numeric"
+              mask={Masks.DATE_DDMMYYYY}
               onChangeText={formik.handleChange('date')}
               onBlur={formik.handleBlur('date')}
               value={formik.values.date}
@@ -103,6 +140,8 @@ export function EditMeal() {
             <Input
               title="Hora"
               style={{ marginLeft: 12 }}
+              keyboardType="numeric"
+              mask={[/[0-1]/, /\d/, ':', /[0-5]/, /\d/]}
               onChangeText={formik.handleChange('hour')}
               onBlur={formik.handleBlur('hour')}
               value={formik.values.hour}
