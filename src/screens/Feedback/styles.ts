@@ -1,7 +1,7 @@
 import styled, { css } from 'styled-components/native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 
-export type FeedbackTypeStyleProps = 'SUCCESS' | 'FAILURE'
+export type FeedbackTypeStyleProps = 'INSIDE' | 'OUTSIDE'
 
 type Props = {
   type: FeedbackTypeStyleProps
@@ -23,7 +23,7 @@ export const Title = styled.Text<Props>`
       fontFamily: theme.FONT_FAMILY.BOLD,
       fontSize: theme.FONT_SIZE.XL,
       color:
-        type === 'SUCCESS' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
+        type === 'INSIDE' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
     })};
 
   line-height: 31.2px;

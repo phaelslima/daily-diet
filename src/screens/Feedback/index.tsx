@@ -27,10 +27,10 @@ export function Feedback() {
   return (
     <Container>
       <Title type={type}>
-        {type === 'SUCCESS' ? 'Continue assim!' : 'Que pena!'}
+        {type === 'INSIDE' ? 'Continue assim!' : 'Que pena!'}
       </Title>
 
-      {type === 'SUCCESS' ? (
+      {type === 'INSIDE' ? (
         <Description>
           Você continua <Strong>dentro da dieta</Strong>. Muito bem!
         </Description>
@@ -42,7 +42,7 @@ export function Feedback() {
       )}
 
       <ImageContainer>
-        {type === 'SUCCESS' ? <InsideTheDiet /> : <OutsideTheDiet />}
+        {type === 'INSIDE' ? <InsideTheDiet /> : <OutsideTheDiet />}
       </ImageContainer>
 
       <Button
