@@ -1,10 +1,17 @@
+import { Alert } from 'react-native'
 import { useNavigation } from '@react-navigation/native'
+import { Masks } from 'react-native-mask-input'
+
+import uuid from 'react-native-uuid'
+
 import { useFormik } from 'formik'
 import * as Yup from 'yup'
 
 import { Button } from '@components/Button'
 import { Input } from '@components/Input'
 import { Radio } from '@components/Radio'
+
+import { mealCreate } from '@storage/meal/mealCreate'
 
 import {
   BackButton,
@@ -31,6 +38,8 @@ export function NewMeal() {
       hour: '',
       isOnDiet: null,
     },
+    validateOnChange: false,
+    validateOnBlur: false,
     validationSchema: Yup.object().shape({
       name: Yup.string()
         .min(2, 'Muito curto!')
@@ -40,27 +49,35 @@ export function NewMeal() {
         .min(2, 'Muito curto!')
         .max(150, 'Muito longo!')
         .required('Campo obrigatório'),
-      date: Yup.string()
-        .matches(
-          /(\d){2}\/(\d){2}\/(\d){4}/,
-          'A data deve ter este padrão "00/00/0000"'
-        )
-        .required('Campo obrigatório'),
-      hour: Yup.string()
-        .matches(/(\d){2}:(\d){2}/, 'A hora deve ter este padrão "00:00"')
-        .length(5)
-        .required('Campo obrigatório'),
+      date: Yup.string().required('Campo obrigatório'),
+      hour: Yup.string().length(5).required('Campo obrigatório'),
       isOnDiet: Yup.boolean().required('Campo obrigatório'),
     }),
-    onSubmit: (values) => {
-      alert(JSON.stringify(values, null, 2))
+    onSubmit: async (values) => {
+      try {
+        await mealCreate({
+          ...values,
+          id: uuid.v4(),
+        } as any)
+
+        navigation.navigate('feedback', {
+          type: values.isOnDiet ? 'INSIDE' : 'OUTSIDE',
+        })
+      } catch (error) {
+        console.log(error)
+        // Alert.alert('Nova Refeição', 'Não foi possível adicionar a refeição.')
+      }
     },
   })
+
+  function handleGoBack() {
+    navigation.goBack()
+  }
 
   return (
     <Container>
       <Header>
-        <BackButton onPress={() => navigation.goBack()}>
+        <BackButton onPress={handleGoBack}>
           <Icon />
         </BackButton>
 
@@ -93,6 +110,8 @@ export function NewMeal() {
             <Input
               title="Data"
               style={{ marginRight: 12 }}
+              keyboardType="numeric"
+              mask={Masks.DATE_DDMMYYYY}
               onChangeText={formik.handleChange('date')}
               onBlur={formik.handleBlur('date')}
               value={formik.values.date}
@@ -102,6 +121,8 @@ export function NewMeal() {
             <Input
               title="Hora"
               style={{ marginLeft: 12 }}
+              keyboardType="numeric"
+              mask={[/[0-1]/, /\d/, ':', /[0-5]/, /\d/]}
               onChangeText={formik.handleChange('hour')}
               onBlur={formik.handleBlur('hour')}
               value={formik.values.hour}
