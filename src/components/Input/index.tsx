@@ -1,7 +1,9 @@
-import { StyleProp, TextInputProps, TextStyle, ViewStyle } from 'react-native'
+import { StyleProp, TextStyle, ViewStyle } from 'react-native'
+import { MaskInputProps } from 'react-native-mask-input'
+
 import { Container, Feedback, Input as TextInput, Title } from './styles'
 
-type Props = TextInputProps & {
+type Props = MaskInputProps & {
   title: string
   inputStyle?: StyleProp<TextStyle>
   style?: StyleProp<ViewStyle>

@@ -1,5 +1,6 @@
 import styled from 'styled-components/native'
-import { TextInput, View } from 'react-native'
+import { View } from 'react-native'
+import MaskInput from 'react-native-mask-input'
 
 export const Container = styled(View)`
   flex-shrink: 1;
@@ -20,7 +21,7 @@ export const Title = styled.Text`
   color: ${({ theme }) => theme.COLORS.GRAY_200};
 `
 
-export const Input = styled(TextInput)`
+export const Input = styled(MaskInput)`
   padding: 12px 18px;
 
   border: 1px solid ${({ theme }) => theme.COLORS.GRAY_500};
