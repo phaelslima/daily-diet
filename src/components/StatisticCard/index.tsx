@@ -3,7 +3,7 @@ import { ViewProps } from 'react-native'
 import { Container, Description, Title } from './styles'
 
 type Props = ViewProps & {
-  title: string
+  title: number
   description: string
 }
 

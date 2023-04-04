@@ -3,9 +3,17 @@ import { TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { ArrowLeft } from 'phosphor-react-native'
 
-export const Container = styled(SafeAreaView)`
+export type StatisticsTypeStyleProps = 'INSIDE' | 'OUTSIDE'
+
+type Props = {
+  type: StatisticsTypeStyleProps
+}
+
+export const Container = styled(SafeAreaView)<Props>`
   flex: 1;
-  background-color: ${({ theme }) => theme.COLORS.GREEN_LIGHT};
+
+  background-color: ${({ theme, type }) =>
+    type === 'INSIDE' ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT};
 `
 
 export const Header = styled.View`

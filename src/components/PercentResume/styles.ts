@@ -2,7 +2,7 @@ import styled from 'styled-components/native'
 import { TouchableOpacity } from 'react-native'
 import { ArrowUpRight } from 'phosphor-react-native'
 
-export type PercentResumeTypeStyleProps = 'POSITIVE' | 'NEGATIVE'
+export type PercentResumeTypeStyleProps = 'INSIDE' | 'OUTSIDE'
 
 type Props = {
   type: PercentResumeTypeStyleProps
@@ -14,7 +14,7 @@ export const Container = styled(TouchableOpacity)<Props>`
   margin: 32px 0 40px;
   padding: 20px 16px;
   background-color: ${({ theme, type }) =>
-    type === 'POSITIVE' ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT};
+    type === 'INSIDE' ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT};
   border-radius: 8px;
 `
 
@@ -37,7 +37,7 @@ export const Description = styled.Text`
 `
 
 export const Icon = styled(ArrowUpRight).attrs<Props>(({ theme, type }) => ({
-  color: type === 'POSITIVE' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
+  color: type === 'INSIDE' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
 }))<Props>`
   position: absolute;
   top: 13.25px;
