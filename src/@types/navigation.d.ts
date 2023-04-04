@@ -6,7 +6,7 @@ export declare global {
       home: undefined
       statistics: undefined
       new: undefined
-      edit: undefined
+      edit: { id: string }
       feedback: { type: FeedbackTypeStyleProps }
       details: { id: string }
     }

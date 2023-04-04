@@ -1,9 +1,13 @@
-import { useNavigation } from '@react-navigation/native'
+import { useEffect, useState } from 'react'
+import { useNavigation, useRoute } from '@react-navigation/native'
 
 import * as PhosphorIcons from 'phosphor-react-native'
 
 import { Badge } from '@components/Badge'
 import { Button } from '@components/Button'
+
+import { mealGetById } from '@storage/meal/mealGetById'
+import { MealStorageDTO } from '@storage/meal/MealStorageDTO'
 
 import {
   BackButton,
@@ -19,12 +23,30 @@ import {
   Title,
 } from './styles'
 
+type Params = {
+  id: string
+}
+
 export function MealDetails() {
-  const nagivation = useNavigation()
+  const navigation = useNavigation()
+  const route = useRoute()
+
+  const params = route.params as Params
+
+  const [meal, setMeal] = useState<MealStorageDTO>()
 
   function handleGoBack() {
-    nagivation.goBack()
+    navigation.goBack()
   }
+
+  async function getMeal() {
+    const meal = await mealGetById(params.id)
+    setMeal(meal)
+  }
+
+  useEffect(() => {
+    getMeal()
+  }, [])
 
   return (
     <Container type="INSIDE">
@@ -37,21 +59,22 @@ export function MealDetails() {
       </Header>
 
       <Content>
-        <Title>Sanduíche</Title>
+        <Title>{meal?.name}</Title>
 
-        <Description>
-          Sanduíche de pão integral com atum e salada de alface e tomate
-        </Description>
+        <Description>{meal?.description}</Description>
 
         <Label>Data e hora</Label>
-        <Text>12/08/2022 às 20:00</Text>
+        <Text>
+          {meal?.date} às {meal?.hour}
+        </Text>
 
-        <Badge type="INSIDE" />
+        <Badge type={meal?.isOnDiet ? 'INSIDE' : 'OUTSIDE'} />
 
         <ButtonControls>
           <Button
             icon={PhosphorIcons.PencilSimpleLine}
             title="Editar refeição"
+            onPress={() => navigation.navigate('edit', { id: meal!.id })}
           />
 
           <Button

@@ -64,8 +64,7 @@ export function NewMeal() {
           type: values.isOnDiet ? 'INSIDE' : 'OUTSIDE',
         })
       } catch (error) {
-        console.log(error)
-        // Alert.alert('Nova Refeição', 'Não foi possível adicionar a refeição.')
+        Alert.alert('Nova Refeição', 'Não foi possível adicionar a refeição.')
       }
     },
   })
