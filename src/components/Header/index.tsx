@@ -1,12 +1,24 @@
-import Logo from '@assets/logo.svg'
+import { useNavigation } from '@react-navigation/native'
 
-import { Container, Avatar } from './styles'
+import { Container, BackButton, Icon, Title } from './styles'
 
-export function Header() {
+type Props = {
+  title: string
+}
+
+export function Header({ title }: Props) {
+  const navigation = useNavigation()
+
+  function handleGoBack() {
+    navigation.goBack()
+  }
   return (
     <Container>
-      <Logo />
-      <Avatar />
+      <BackButton onPress={handleGoBack}>
+        <Icon />
+      </BackButton>
+
+      <Title>{title}</Title>
     </Container>
   )
 }

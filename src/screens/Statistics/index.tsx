@@ -1,9 +1,12 @@
-import { StatisticCard } from '@components/StatisticCard'
+import { useCallback, useState } from 'react'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
+
+import { useTheme } from 'styled-components/native'
+
+import { StatisticCard } from '@components/StatisticCard'
+
 import { mealsGetAll } from '@storage/meal/mealsGetAll'
 import { toTimestamp } from '@utils/toTimestamp'
-import { useCallback, useState } from 'react'
-import { useTheme } from 'styled-components/native'
 
 import {
   Button,
@@ -93,7 +96,7 @@ export function Statistics() {
           <Icon />
         </Button>
         <Title>
-          {percent.toLocaleString('pt-BR', {
+          {(percent || 0).toLocaleString('pt-BR', {
             style: 'percent',
             minimumFractionDigits: 2,
           })}

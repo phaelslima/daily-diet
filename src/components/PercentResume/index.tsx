@@ -36,7 +36,7 @@ export function PercentResume() {
     >
       <Icon type={type} />
       <Percent>
-        {percent.toLocaleString('pt-BR', {
+        {(percent || 0).toLocaleString('pt-BR', {
           style: 'percent',
           minimumFractionDigits: 2,
         })}

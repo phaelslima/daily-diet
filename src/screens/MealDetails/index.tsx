@@ -6,21 +6,18 @@ import * as PhosphorIcons from 'phosphor-react-native'
 
 import { Badge } from '@components/Badge'
 import { Button } from '@components/Button'
+import { Header } from '@components/Header'
 
 import { mealGetById } from '@storage/meal/mealGetById'
 import { mealRemoveById } from '@storage/meal/mealRemoveById'
 import { MealStorageDTO } from '@storage/meal/MealStorageDTO'
 
 import {
-  BackButton,
   ButtonControls,
   Container,
   Content,
   Description,
   Text,
-  Header,
-  HeaderTitle,
-  Icon,
   Label,
   Title,
 } from './styles'
@@ -36,10 +33,6 @@ export function MealDetails() {
   const params = route.params as Params
 
   const [meal, setMeal] = useState<MealStorageDTO>()
-
-  function handleGoBack() {
-    navigation.goBack()
-  }
 
   async function getMeal() {
     const meal = await mealGetById(params.id)
@@ -60,14 +53,8 @@ export function MealDetails() {
   }, [])
 
   return (
-    <Container type="INSIDE">
-      <Header type="INSIDE">
-        <BackButton onPress={handleGoBack}>
-          <Icon />
-        </BackButton>
-
-        <HeaderTitle>Refeição</HeaderTitle>
-      </Header>
+    <Container type={meal?.isOnDiet ? 'INSIDE' : 'OUTSIDE'}>
+      <Header title="Refeição" />
 
       <Content>
         <Title>{meal?.name}</Title>

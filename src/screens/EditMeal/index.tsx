@@ -7,6 +7,7 @@ import * as Yup from 'yup'
 import { useFormik } from 'formik'
 
 import { Button } from '@components/Button'
+import { Header } from '@components/Header'
 import { Input } from '@components/Input'
 import { Radio } from '@components/Radio'
 
@@ -14,17 +15,13 @@ import { mealGetById } from '@storage/meal/mealGetById'
 import { mealUpdateById } from '@storage/meal/mealUpdateById'
 
 import {
-  BackButton,
   Container,
   Context,
   Form,
-  Header,
-  Icon,
   RadioGroup,
   RadioGroupFeedback,
   RadioGroupTitle,
   Row,
-  Title,
 } from './styles'
 
 type Params = {
@@ -72,10 +69,6 @@ export function EditMeal() {
     },
   })
 
-  function handleGoBack() {
-    navigation.goBack()
-  }
-
   async function getMeal() {
     const meal = await mealGetById(params.id)
 
@@ -95,13 +88,7 @@ export function EditMeal() {
 
   return (
     <Container>
-      <Header>
-        <BackButton onPress={handleGoBack}>
-          <Icon />
-        </BackButton>
-
-        <Title>Editar refeição</Title>
-      </Header>
+      <Header title="Editar refeição" />
 
       <Context>
         <Form>

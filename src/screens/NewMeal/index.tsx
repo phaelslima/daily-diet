@@ -4,27 +4,24 @@ import { Masks } from 'react-native-mask-input'
 
 import uuid from 'react-native-uuid'
 
-import { useFormik } from 'formik'
 import * as Yup from 'yup'
+import { useFormik } from 'formik'
 
 import { Button } from '@components/Button'
+import { Header } from '@components/Header'
 import { Input } from '@components/Input'
 import { Radio } from '@components/Radio'
 
 import { mealCreate } from '@storage/meal/mealCreate'
 
 import {
-  BackButton,
   Container,
   Context,
   Form,
-  Header,
-  Icon,
   RadioGroup,
   RadioGroupFeedback,
   RadioGroupTitle,
   Row,
-  Title,
 } from './styles'
 
 export function NewMeal() {
@@ -69,19 +66,9 @@ export function NewMeal() {
     },
   })
 
-  function handleGoBack() {
-    navigation.goBack()
-  }
-
   return (
     <Container>
-      <Header>
-        <BackButton onPress={handleGoBack}>
-          <Icon />
-        </BackButton>
-
-        <Title>Nova refeição</Title>
-      </Header>
+      <Header title="Nova refeição" />
 
       <Context>
         <Form>
