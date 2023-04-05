@@ -8,6 +8,7 @@ import { mealsGetAll } from '@storage/meal/mealsGetAll'
 import { MealStorageDTO } from '@storage/meal/MealStorageDTO'
 
 import { Button } from '@components/Button'
+import { ListEmpty } from '@components/ListEmpty'
 import { Meal } from '@components/Meal'
 
 import { toTimestamp } from '@utils/toTimestamp'
@@ -88,7 +89,13 @@ export function Meals() {
           <SectionTitle>{title}</SectionTitle>
         )}
         ItemSeparatorComponent={() => <Separator />}
-        contentContainerStyle={{ paddingBottom: 24 }}
+        ListEmptyComponent={() => (
+          <ListEmpty message="Parece que você não possui refeições registradas, cadastre e comece a monitorar a sua dieta! ; )" />
+        )}
+        contentContainerStyle={[
+          { paddingBottom: 24 },
+          meals.length === 0 && { flex: 1 },
+        ]}
       />
     </>
   )
