@@ -1,6 +1,9 @@
 import { useCallback, useState } from 'react'
 import { useFocusEffect, useNavigation } from '@react-navigation/native'
 
+import { createShimmerPlaceholder } from 'react-native-shimmer-placeholder'
+import { LinearGradient } from 'expo-linear-gradient'
+
 import { useTheme } from 'styled-components/native'
 
 import { StatisticCard } from '@components/StatisticCard'
@@ -24,6 +27,8 @@ export function Statistics() {
   const navigation = useNavigation()
   const theme = useTheme()
 
+  const [visible, setVisible] = useState(false)
+
   const [percent, setPercent] = useState(0)
   const type = percent >= 0.5 ? 'INSIDE' : 'OUTSIDE'
 
@@ -32,8 +37,12 @@ export function Statistics() {
   const [offDiet, setOffDiet] = useState(0)
   const [bestSequence, setBestSequence] = useState(0)
 
+  const ShimmerPlaceholder = createShimmerPlaceholder(LinearGradient)
+
   async function calculateStatistics() {
+    setVisible(false)
     const mealList = await mealsGetAll()
+    setVisible(true)
 
     const total = mealList.length
     const onDiet = mealList.filter((meal) => meal.isOnDiet).length
@@ -90,42 +99,67 @@ export function Statistics() {
   )
 
   return (
-    <Container type={type}>
+    <Container type={visible ? type : 'DEFAULT'}>
       <Header>
         <Button onPress={handleGoBack}>
           <Icon />
         </Button>
-        <Title>
-          {(percent || 0).toLocaleString('pt-BR', {
-            style: 'percent',
-            minimumFractionDigits: 2,
-          })}
-        </Title>
+        <ShimmerPlaceholder
+          visible={visible}
+          height={36}
+          width={140}
+          location={[0.3, 1]}
+          shimmerColors={
+            !visible
+              ? [theme.COLORS.GRAY_500, theme.COLORS.GRAY_400]
+              : type === 'INSIDE'
+              ? [theme.COLORS.GREEN_LIGHT, theme.COLORS.GREEN_MID]
+              : [theme.COLORS.RED_LIGHT, theme.COLORS.RED_MID]
+          }
+          shimmerStyle={[{ borderRadius: 16, marginBottom: 6 }]}
+        >
+          <Title>
+            {(percent || 0).toLocaleString('pt-BR', {
+              style: 'percent',
+              minimumFractionDigits: 2,
+            })}
+          </Title>
+        </ShimmerPlaceholder>
         <Description>das refeições dentro da dieta</Description>
       </Header>
+
       <Content>
         <ContentTitle>Estatísticas gerais</ContentTitle>
 
         <StatisticCard
+          visible={visible}
           title={bestSequence}
           description="melhor sequência de pratos dentro da dieta"
         />
 
-        <StatisticCard title={total} description="refeições registradas" />
+        <StatisticCard
+          visible={visible}
+          title={total}
+          description="refeições registradas"
+        />
 
         <Row>
           <StatisticCard
+            visible={visible}
             title={onDiet}
             description="refeições dentro da dieta"
             style={{
               marginRight: 6,
               backgroundColor: theme.COLORS.GREEN_LIGHT,
             }}
+            shimmerColors={[theme.COLORS.GREEN_LIGHT, theme.COLORS.GREEN_MID]}
           />
           <StatisticCard
+            visible={visible}
             title={offDiet}
             description="refeições fora da dieta"
             style={{ marginLeft: 6, backgroundColor: theme.COLORS.RED_LIGHT }}
+            shimmerColors={[theme.COLORS.RED_LIGHT, theme.COLORS.RED_MID]}
           />
         </Row>
       </Content>
