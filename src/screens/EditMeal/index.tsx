@@ -141,7 +141,7 @@ export function EditMeal() {
 
             <Row>
               <Radio
-                type="POSITIVE"
+                type="INSIDE"
                 title="Sim"
                 style={{ marginRight: 12 }}
                 isActive={formik.values.isOnDiet === true}
@@ -149,7 +149,7 @@ export function EditMeal() {
               />
 
               <Radio
-                type="NEGATIVE"
+                type="OUTSIDE"
                 title="Não"
                 style={{ marginLeft: 12 }}
                 isActive={formik.values.isOnDiet === false}

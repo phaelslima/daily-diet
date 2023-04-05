@@ -1,7 +1,8 @@
 import styled, { css } from 'styled-components/native'
+
 import { TouchableOpacity } from 'react-native'
 
-export type RadioTypeStyleProps = 'POSITIVE' | 'NEGATIVE'
+export type RadioTypeStyleProps = 'INSIDE' | 'OUTSIDE'
 
 type Props = {
   type: RadioTypeStyleProps
@@ -25,10 +26,10 @@ export const Container = styled(TouchableOpacity)<Props>`
     isActive &&
     css({
       backgroundColor:
-        type === 'POSITIVE' ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT,
+        type === 'INSIDE' ? theme.COLORS.GREEN_LIGHT : theme.COLORS.RED_LIGHT,
       borderWidth: 1,
       borderColor:
-        type === 'POSITIVE' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
+        type === 'INSIDE' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK,
     })}
 `
 
@@ -39,7 +40,7 @@ export const Point = styled.View<Props>`
   margin-right: 5px;
 
   background-color: ${({ theme, type }) =>
-    type === 'POSITIVE' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK};
+    type === 'INSIDE' ? theme.COLORS.GREEN_DARK : theme.COLORS.RED_DARK};
   border-radius: 999px;
 `
 
