@@ -92,6 +92,7 @@ export function Meals() {
           <SectionTitle>{title}</SectionTitle>
         )}
         ItemSeparatorComponent={() => <Separator />}
+        stickySectionHeadersEnabled
         ListEmptyComponent={() =>
           !loading ? (
             <Loading />

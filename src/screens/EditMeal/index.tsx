@@ -1,5 +1,5 @@
 import { useEffect } from 'react'
-import { Alert } from 'react-native'
+import { Alert, Keyboard } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 import { Masks } from 'react-native-mask-input'
 
@@ -118,6 +118,7 @@ export function EditMeal() {
               style={{ marginRight: 12 }}
               keyboardType="numeric"
               mask={Masks.DATE_DDMMYYYY}
+              placeholderFillCharacter="0"
               onChangeText={formik.handleChange('date')}
               onBlur={formik.handleBlur('date')}
               value={formik.values.date}
@@ -128,7 +129,8 @@ export function EditMeal() {
               title="Hora"
               style={{ marginLeft: 12 }}
               keyboardType="numeric"
-              mask={[/[0-1]/, /\d/, ':', /[0-5]/, /\d/]}
+              mask={[/[0-2]/, /\d/, ':', /[0-5]/, /\d/]}
+              placeholderFillCharacter="0"
               onChangeText={formik.handleChange('hour')}
               onBlur={formik.handleBlur('hour')}
               value={formik.values.hour}
@@ -163,7 +165,10 @@ export function EditMeal() {
 
         <Button
           title="Salvar alterações"
-          onPress={formik.handleSubmit as any}
+          onPress={() => {
+            formik.handleSubmit()
+            Keyboard.dismiss()
+          }}
         />
       </Context>
     </Container>

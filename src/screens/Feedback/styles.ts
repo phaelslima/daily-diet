@@ -12,7 +12,7 @@ export const Container = styled(SafeAreaView)`
   justify-content: center;
   align-items: center;
 
-  background-color: ${({ theme }) => theme.COLORS.WHITE};
+  background-color: ${({ theme }) => theme.COLORS.GRAY_700};
 `
 
 export const Title = styled.Text<Props>`

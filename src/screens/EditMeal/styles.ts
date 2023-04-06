@@ -13,7 +13,7 @@ export const Context = styled.View`
   margin-top: -17px;
   padding: 40px 24px 24px;
 
-  background-color: ${({ theme }) => theme.COLORS.WHITE};
+  background-color: ${({ theme }) => theme.COLORS.GRAY_700};
   border-radius: 20px;
 `
 

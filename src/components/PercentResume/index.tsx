@@ -19,6 +19,7 @@ export function PercentResume() {
 
   const [visible, setVisible] = useState(false)
 
+  const [total, setTotal] = useState(0)
   const [percent, setPercent] = useState(0)
   const type = percent >= 0.5 ? 'INSIDE' : 'OUTSIDE'
 
@@ -32,6 +33,7 @@ export function PercentResume() {
 
     const result = onDiet / total
 
+    setTotal(total)
     setPercent(result)
   }
 
@@ -44,10 +46,10 @@ export function PercentResume() {
   return (
     <Container
       activeOpacity={0.8}
-      type={visible ? type : 'DEFAULT'}
+      type={visible && total > 0 ? type : 'DEFAULT'}
       onPress={() => navigation.navigate('statistics')}
     >
-      <Icon type={visible ? type : 'DEFAULT'} />
+      <Icon type={visible && total > 0 ? type : 'DEFAULT'} />
       <ShimmerPlaceholder
         visible={visible}
         height={36}

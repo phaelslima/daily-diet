@@ -30,8 +30,6 @@ export const Input = styled(MaskInput)`
   font-family: ${({ theme }) => theme.FONT_FAMILY.REGULAR};
   font-size: ${({ theme }) => theme.FONT_SIZE.MD}px;
 
-  line-height: 20.8px;
-
   color: ${({ theme }) => theme.COLORS.GRAY_100};
 `
 

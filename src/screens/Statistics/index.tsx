@@ -99,7 +99,7 @@ export function Statistics() {
   )
 
   return (
-    <Container type={visible ? type : 'DEFAULT'}>
+    <Container type={visible && total > 0 ? type : 'DEFAULT'}>
       <Header>
         <Button onPress={handleGoBack}>
           <Icon />

@@ -6,6 +6,7 @@ import { UserCircle } from 'phosphor-react-native'
 export const Container = styled(SafeAreaView)`
   flex: 1;
   padding: 16px 24px 0;
+  background-color: ${({ theme }) => theme.COLORS.GRAY_700};
 `
 
 export const Header = styled.View`

@@ -14,8 +14,10 @@ export const Title = styled.Text`
 `
 
 export const SectionTitle = styled.Text`
-  margin-top: 32px;
-  margin-bottom: 8px;
+  padding-top: 32px;
+  padding-bottom: 8px;
+
+  background-color: ${({ theme }) => theme.COLORS.GRAY_700};
 
   font-family: ${({ theme }) => theme.FONT_FAMILY.BOLD};
   font-size: ${({ theme }) => theme.FONT_SIZE.LG}px;
