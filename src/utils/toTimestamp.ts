@@ -1,9 +1,15 @@
 export function toTimestamp(strDate: string) {
-  let myDate = strDate.split('.')
+  let myDate = strDate.split(' ')
+
+  let date = myDate[0].split('/')
+  let hour = myDate[1].split(':')
+
   var newDate = new Date(
-    Number(myDate[2]),
-    Number(myDate[1]) - 1,
-    Number(myDate[0])
+    Number(date[2]),
+    Number(date[1]) - 1,
+    Number(date[0]),
+    Number(hour[0]),
+    Number(hour[1])
   )
 
   return newDate.getTime()

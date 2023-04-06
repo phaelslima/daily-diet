@@ -60,12 +60,11 @@ export function Statistics() {
       currentSequence = 0
 
     mealList.sort(function (a, b) {
-      const dateA = a.date.replaceAll('/', '.')
-      const dateB = b.date.replaceAll('/', '.')
-
-      return toTimestamp(dateA) < toTimestamp(dateB)
+      return toTimestamp(a.date + ' ' + a.hour) <
+        toTimestamp(b.date + ' ' + b.hour)
         ? 1
-        : toTimestamp(dateA) > toTimestamp(dateB)
+        : toTimestamp(a.date + ' ' + a.hour) >
+          toTimestamp(b.date + ' ' + b.hour)
         ? -1
         : 0
     })

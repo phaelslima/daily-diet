@@ -30,6 +30,16 @@ export function Meals() {
     const mealList = await mealsGetAll()
     setLoading(true)
 
+    mealList.sort(function (a, b) {
+      return toTimestamp(a.date + ' ' + a.hour) <
+        toTimestamp(b.date + ' ' + b.hour)
+        ? 1
+        : toTimestamp(a.date + ' ' + a.hour) >
+          toTimestamp(b.date + ' ' + b.hour)
+        ? -1
+        : 0
+    })
+
     mealList.map((meal) => {
       const date = meal.date.replaceAll('/', '.')
 
@@ -47,14 +57,6 @@ export function Meals() {
 
         data[index].data.push(meal)
       }
-    })
-
-    data.sort(function (a, b) {
-      return toTimestamp(a.title) < toTimestamp(b.title)
-        ? 1
-        : toTimestamp(a.title) > toTimestamp(b.title)
-        ? -1
-        : 0
     })
 
     setMeals(data)
