@@ -1,9 +1,10 @@
 import { useEffect, useState } from 'react'
-import { Alert } from 'react-native'
+import { Alert as RNAlert } from 'react-native'
 import { useNavigation, useRoute } from '@react-navigation/native'
 
 import * as PhosphorIcons from 'phosphor-react-native'
 
+import { Alert } from '@components/Alert'
 import { Badge } from '@components/Badge'
 import { Button } from '@components/Button'
 import { Header } from '@components/Header'
@@ -33,6 +34,7 @@ export function MealDetails() {
   const params = route.params as Params
 
   const [meal, setMeal] = useState<MealStorageDTO>()
+  const [modalVisible, setModalVisible] = useState(false)
 
   async function getMeal() {
     const meal = await mealGetById(params.id)
@@ -42,10 +44,19 @@ export function MealDetails() {
   async function handleRemoveMeal() {
     try {
       await mealRemoveById(params.id)
+      setModalVisible(false)
       navigation.goBack()
     } catch (error) {
-      Alert.alert('Remover Refeição', 'Não foi possível remover a refeição.')
+      RNAlert.alert('Remover Refeição', 'Não foi possível remover a refeição.')
     }
+  }
+
+  function handleOpenModal() {
+    setModalVisible(true)
+  }
+
+  function handleCloseModal() {
+    setModalVisible(false)
   }
 
   useEffect(() => {
@@ -53,37 +64,45 @@ export function MealDetails() {
   }, [])
 
   return (
-    <Container type={meal?.isOnDiet ? 'INSIDE' : 'OUTSIDE'}>
-      <Header title="Refeição" />
+    <>
+      <Alert
+        visible={modalVisible}
+        onCancel={handleCloseModal}
+        onRemove={handleRemoveMeal}
+      />
 
-      <Content>
-        <Title>{meal?.name}</Title>
+      <Container type={meal?.isOnDiet ? 'INSIDE' : 'OUTSIDE'}>
+        <Header title="Refeição" />
 
-        <Description>{meal?.description}</Description>
+        <Content>
+          <Title>{meal?.name}</Title>
 
-        <Label>Data e hora</Label>
-        <Text>
-          {meal?.date} às {meal?.hour}
-        </Text>
+          <Description>{meal?.description}</Description>
 
-        <Badge type={meal?.isOnDiet ? 'INSIDE' : 'OUTSIDE'} />
+          <Label>Data e hora</Label>
+          <Text>
+            {meal?.date} às {meal?.hour}
+          </Text>
 
-        <ButtonControls>
-          <Button
-            icon={PhosphorIcons.PencilSimpleLine}
-            title="Editar refeição"
-            onPress={() => navigation.navigate('edit', { id: meal!.id })}
-          />
+          <Badge type={meal?.isOnDiet ? 'INSIDE' : 'OUTSIDE'} />
 
-          <Button
-            mode="OUTLINED"
-            style={{ marginTop: 9 }}
-            icon={PhosphorIcons.Trash}
-            title="Excluir refeição"
-            onPress={handleRemoveMeal}
-          />
-        </ButtonControls>
-      </Content>
-    </Container>
+          <ButtonControls>
+            <Button
+              icon={PhosphorIcons.PencilSimpleLine}
+              title="Editar refeição"
+              onPress={() => navigation.navigate('edit', { id: meal!.id })}
+            />
+
+            <Button
+              mode="OUTLINED"
+              style={{ marginTop: 9 }}
+              icon={PhosphorIcons.Trash}
+              title="Excluir refeição"
+              onPress={handleOpenModal}
+            />
+          </ButtonControls>
+        </Content>
+      </Container>
+    </>
   )
 }
